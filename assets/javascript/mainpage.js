@@ -7,23 +7,7 @@ var InDestination = "908 Henry Drive, Silver Spring, MD"
 console.log("starting Location: " +inLocation);
 console.log("Your Destination: " +InDestination);''
 
-/*
-$("#myform").validate({
-    rules: {
-              // simple rule, converted to {required:true}
-             From Location: "required",
-             Destination: “required”
-             }
-   
-  
-  if( $("p:contains(_)") ).length{
-    //Do something
-  }
-  else{
-    //Do something
-  }
-  
-*/
+
 
   inLocation = "Smith";
   console.log("inLocation should be spaces");
@@ -41,8 +25,10 @@ $("#myform").validate({
     }
 
 // search for special characters
-    var str = $('#Search').val();
-if(/^[a-zA-Z0-9- ]*$/.test(str) == false) {
-    alert('Your search string contains illegal characters.');
-}
+   // var str = $('#Search').val();
+    var str = InDestination
+    if(/^[a-zA-Z0-9- ]*$/.test(str) == false) 
+         {
+              console.log("Desination can not have special charcters: " +Destination);
+         }
 })
