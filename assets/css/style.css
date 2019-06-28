@@ -8,7 +8,7 @@
    
   /* background label for submission box */
    #form {
-    border-radius: 5px;
+    
     background-color: rgb(153, 86, 10);
     padding: 15px;
     opacity: .7;
@@ -57,3 +57,11 @@
     background-color: #192196;
     opacity: .7;
   }
+
+.card {
+
+  background-color: rgb(88, 86, 86);
+  border-radius: 0px 0px 10px 10px;
+  opacity: .9;
+  display: none;
+}
