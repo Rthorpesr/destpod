@@ -3,7 +3,7 @@ $( document ).ready(function() {
     $(".dropdown-trigger").dropdown();
     
     var inLocation = "500 E. Libert Road, Rockville, MD";
-var inDestination = "thorpesr"
+var inDestination = "thorpesr@"
 console.log("starting Location: " +inLocation);
 console.log("Your Destination: " +inDestination);''
 
@@ -25,13 +25,20 @@ console.log("Your Destination: " +inDestination);''
 
     }
 
-// search for special characters
-   // var str = $('#Search').val();
-    var str = inDestination
-    if(/^[a-zA-Z0-9- ]*$/.test(str) == false) 
-         {
-              console.log("Desination can not have special charcters: " +inDestination);
-              $('#err-msg').text ('your made a mistake')
-            
+// Starting Location can't be blank
+$('#contact_name').on('input', function() {
+	var input=$(this);
+	var is_name=input.val();
+	if(is_name){input.removeClass("invalid").addClass("valid");}
+	else{input.removeClass("valid").addClass("invalid");}
+});
+
+// Destination can't be blank
+$('#contact_name').on('input', function() {
+	var input=$(this);
+	var is_name=input.val();
+	if(is_name){input.removeClass("invalid").addClass("valid");}
+	else{input.removeClass("valid").addClass("invalid");}
+});
          }
 })
