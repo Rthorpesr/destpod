@@ -1,6 +1,6 @@
 $( document ).ready(function() {
 
-    $(".dropdown-trigger").dropdown();
+   
     
 
 
@@ -83,14 +83,172 @@ $( document ).ready(function() {
 
 
     $(document).on("click", "#submit-button", displayPods);
+
+
     
     $("#submit-button").on("click", function(){
         $("#submission-box").hide();
         $("#podcast-card").show();
+
+        event.preventDefault();
+
+    var inlocation = $('#location').val();
+    //console.log("Starting Location:" +inlocation);
+    var indestination = $('#destination').val();
+    //console.log("Your Destination:" +indestination);
+
+    if ((inlocation == 0) && (indestination == 0))
+         {
+             // Starting Location and Destination are blank
+            // console.log("MISSING THE LOCATION");
+            // console.log("Both missing - Starting Location:" +inlocation);
+            // console.log("Both missing - Your Destination:" +indestination);
+             $('audio#pop1')[0].play()
+             //$('#location').val('Location cannot be blank').css('color', 'red');
+            // $('#destination').val('Destination cannot be blank').css('color', 'red');
+         }
+     else
+         if ((inlocation == 0) && (indestination !== 0))
+              {
+                   // Starting Location is blank and Destination is not
+                  // console.log("Just Location missing - Starting Location:" +inlocation);
+                   $('audio#pop2')[0].play()
+              //     $('#location').val('Location cannot be blank').css('color', 'red');
+              }
+         else
+            if ((indestination == 0) && (inlocation !== 0))
+                   {
+                        //  Destination is blank and Starting Location is not
+                       // console.log("MISSING THE DESTINATION");
+                        //console.log("Just Dest missing - Your Destination:" +indestination);
+                        $('audio#pop3')[0].play()
+                       // $('#destination').val('Destination cannot be blank').css('color', 'red');
+                   }
+})
+
+
+try  {
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var recognition = new SpeechRecognition();
+  }
+catch(e) {
+        console.error(e);
+        //$('.no-browser-support').show();
+        //$('.app').hide();
+      }
+
+
+var noteTextareaLoc  = $('#location');
+var noteTextareaDest = $('#destination');
+var noteTextareaDestPod = $('#topic');
+var instructions = $('#recording-instructions');
+var notesList = $('ul#notes');
+
+var LocationContent    = '';
+var DestinationContent = '';
+var DestPodContent     = '';
+var loc_counter = 1;
+// Get all notes from previous sessions and display them.
+//var notes = getAllNotes();
+//renderNotes(notes);
+
+/*-----------------------------
+Voice Recognition 
+------------------------------*/
+
+// If false, the recording will stop after a few seconds of silence.
+// When true, the silence period is longer (about 15 seconds),
+// allowing us to keep recording even when the user pauses. 
+recognition.continuous = true;
+
+// This block is called every time the Speech APi captures a line. 
+
+recognition.onresult = function(event) 
+  {
+       // event is a SpeechRecognitionEvent object.
+       // It holds all the lines we have captured so far. 
+       // We only need the current one.
+
+       console.log('Inside recognition.onresult function');
+
+       var current = event.resultIndex;
+
+       // Get a transcript of what was said.
+       var transcript = event.results[current][0].transcript;
+        
+       // Add the current transcript to the contents of our Note.
+       // There is a weird bug on mobile, where everything is repeated twice.
+       // There is no official solution so far so we have to handle an edge case.
+       var mobileRepeatBug = (current == 1 && transcript == event.results[0][0].transcript);
+
+       //console.log('LocationContent: ' +transcript);
+
+       console.log('Transcript = ' + transcript);
+       console.log('mobileReaptBug = ' + mobileRepeatBug);
+       console.log('loc_counter: ' + loc_counter);
+       
+       if(!mobileRepeatBug && loc_counter == 1)
+            {
+                 LocationContent += transcript;
+                 noteTextareaLoc.val(LocationContent);
+                 loc_counter ++;
+            }
+       else
+          if (!mobileRepeatBug && loc_counter == 2)
+            {
+                 DestinationContent += transcript;
+                 noteTextareaDest.val(DestinationContent);
+                 loc_counter ++;
+        }
+          else
+             if (!mobileRepeatBug && loc_counter == 3)
+                 {
+                      DestPodContent += transcript;
+                      noteTextareaDestPod.val(DestPodContent);
+                      loc_counter ++;
+                 }
+  };
+
+recognition.onstart = function() 
+  { 
+       console.log("Recognition.onstart function");
+       //$("#Destination").focus();
+       instructions.text('Voice recognition activated. Try speaking into the microphone.');
+  }
+
+recognition.onspeechend = function() 
+  {
+       instructions.text('You were quiet for a while so voice recognition turned itself off.');
+  }
+
+recognition.onerror = function(event) 
+  {
+       if(event.error == 'no-speech') 
+            {
+                 instructions.text('No speech was detected. Try again.');  
+            }
+  }
+
+
+
+/*-----------------------------
+          start capturing the user's voice input
+        ------------------------------*/
+        $('#voice-btn').on('click', function(e)
+             {console.log('Start record btn pressed');
+
+                  if (LocationContent.length)
+                       {
+                            LocationContent += ' ';
+                       }
+                  console.log('starting speech recogniton');
+                  recognition.start();
+             });
+
     });
 
 
     
-})
+
 
 

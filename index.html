@@ -7,6 +7,7 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/shoelace-css/1.0.0-beta16/shoelace.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <title>Destination: Podcast</title>
 </head>
@@ -29,11 +30,13 @@
         </div>
 
         
-          <ul class="right hide-on-med-and-down">
+          <!-- <ul class="right hide-on-med-and-down">
             
-            <!-- Dropdown Trigger -->
+         
             <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Login with Google<i class="material-icons right"></i></a></li>
-          </ul>
+          </ul> -->
+
+          
         </div>
       </nav>
     </div> 
@@ -65,11 +68,7 @@
                 <i class="large material-icons">mic</i> </a>
       </div>
     </div>
- 
-    
-
-
-      </form>
+    </form>
     </div>
   </div>
 
@@ -94,7 +93,7 @@
              
               </div>
             </div>
-<!---Podcasgt Card-->
+<!---Podcast Card-->
             <div class="col s4">
                 <div class="card small z-depth-5">
                   <div class="card-image">
@@ -134,8 +133,21 @@
 
 
 
-    
+  <!---Audio file calls for voice recognition-->  
+  <audio id="pop1">
+      <source src="./assets/myaudio/Bothblank.wav" type="audio/mpeg">
+  </audio>
 
+  <audio id="pop2">
+        <source src="./assets/myaudio/Startinglocation.wav" type="audio/mpeg">
+  </audio>
+
+  <audio id="pop3">
+    <source src="./assets/myaudio/Destinationblank.wav" type="audio/mpeg">
+  </audio>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="./assets/javascript/script(thorpe).js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="assets/javascript/mainpage.js"></script>
