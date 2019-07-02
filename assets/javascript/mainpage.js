@@ -6,22 +6,26 @@ $( document ).ready(function() {
 
     // Listen API 
 
+    var topic;
+    var minLength;
+    var maxLength;
+
     function displayPods() {
 
         var podcastDiv = $("<div>").attr("id", "podcast-holder");
-       $("#podcast-container").append(podcastDiv);
+        $("#podcast-container").append(podcastDiv);
 
-        event.preventDefault();
+        //event.preventDefault();
 
         var key = "2ce331e1a7d34875879ce8fc37eded8f";
 
         // retrieve topic from input box
-        var topic = $("#topic").val();;
-        console.log("topic: " + topic)
+        topic = $("#topic").val();
+        console.log("topic: " + topic);
 
-        var minLength = 40;
+        //var minLength = 40;
 
-        var maxLength = 60;
+        //var maxLength = 60;
 
         var queryURL = "https://listen-api.listennotes.com/api/v2/search?q=" + topic + "&sort_by_date=0&type=episode&offset=0&len_min=" + minLength + "&len_max=" + maxLength + "&genre_ids=68%2C82&published_before=1390190241000&published_after=0&only_in=title%2Cdescription&language=English&safe_mode=1";
 
@@ -74,15 +78,95 @@ $( document ).ready(function() {
 
                     // putting the entire div below the previous
                     $("#podcast-holder").append(div);
-                    console.log(i);
+                    
                 }
 
-                console.log("WE got 5");
             });
     }
 
 
+    // function for displaying the map
+
+    var startLoc;
+    var destLoc;
+
+    function displayMap() {
+
+        event.preventDefault();
+
+        startLoc = $("#location").val()
+
+        console.log("start: " + startLoc);
+
+        destLoc = $("#destination").val();
+
+        console.log("dest: " + destLoc);
+
+        L.mapquest.key = 'dvFjIsAPsAlAFFRVAmS01LOQ7lu5cZEl';
+
+        var map = L.mapquest.map('map', {
+          center: [40.7128, -74.0059],
+          layers: L.mapquest.tileLayer('map'),
+          zoom: 13
+        });
+
+        L.mapquest.directions().route({
+          start: startLoc,
+          end: destLoc
+        });
+
+    };
+
+    // function for retrieving and displaying time
+
+    function displayTime() {
+
+        event.preventDefault();
+
+        var startLoc = $("#location").val()
+
+        console.log("start: " + startLoc);
+
+        var destLoc = $("#destination").val();
+
+        console.log("dest: " + destLoc);
+
+        var queryURL = "http://www.mapquestapi.com/directions/v2/routematrix?key=dvFjIsAPsAlAFFRVAmS01LOQ7lu5cZEl&ambiguities=ignore&doReverseGeocode=true&outFormat=json&routeType=fastest&locale=de_DE&unit=k&allToAll=false&from=" + startLoc + "&to=" + destLoc 
+        
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function(res) {
+
+
+            console.log(res);
+
+            var timeToLoc = res.time[1];
+            console.log("seconds: " + timeToLoc);
+
+            timeInMin = Math.floor(timeToLoc/60);
+            console.log("minutes: " + timeInMin);
+
+            $("#time-to-loc").text(timeInMin);
+
+            minLength = timeInMin - 5;
+            console.log("minLength: " + minLength);
+
+            maxLength = timeInMin + 5;
+            console.log("maxLength: " + maxLength)
+
+        })
+
+    }
+
+
     $(document).on("click", "#submit-button", displayPods);
+    $(document).on("click", "#submit-button", displayMap);
+    $(document).on("click", "#submit-button", displayTime);
+    //$(document).on("click", "#submit-button", displayPods);
+    $("#submit-button").on("click", function(){
+       setTimeout(displayPods, 1000);
+    });
 
 
     
